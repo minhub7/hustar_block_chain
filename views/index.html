@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <title>Crime History Management System</title>
+<!-- 
+Timeless Template 
+http://www.templatemo.com/tm-517-timeless
+-->
+  <!-- load CSS -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">
+  <!-- Google web font "Open Sans" -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <!-- https://getbootstrap.com/ -->
+  <link rel="stylesheet" href="css/templatemo-style.css">
+  <!-- Templatemo style -->
+  <script src="https://code.jquery.com/jquery-latest.js "></script>
+  <link rel='stylesheet' href='./css/style.css' type='text/css' />
+  <script type="text/javascript">
+
+    $(document).ready(function () {
+      getListAll()
+
+      $("form").submit(function (event) {
+        // Stop form from submitting normally
+        event.preventDefault();
+        console.log('form ');
+
+        /* Serialize the submitted form control values to be sent to the web server with the request */
+        let formValues = $(this).serialize();
+
+        // Send the form data using post
+        $.post("/submit", formValues, function (data) {
+          // Display the returned data in browser
+          // $("#result").html(data);
+
+          console.log('success : ', data);
+          getList()
+
+        });  // end of post
+      });  // end of submit
+    });  // end of ready
+
+    function getListAll() {
+      // Send the form data using post
+      $.get("/listall", function (data) {
+        console.log('data.getLists : ', data.getLists);
+        let productList = data.getLists;
+        let table = document.getElementById("table1");
+        for (let i = 0; i < productList.length; i++) {
+          let cnt = productList.length - 1 - i;
+          let product = productList[cnt];
+          processTable(product)
+        }  // end of for
+      });  // end of post
+    }  // end of getListAll
+
+    function processTable(getProduct) {
+      let table = document.getElementById("table1");
+      let toString = getProduct.toString();
+      console.log("getProduct: " + getProduct);
+      console.log("processTable: " + toString);
+      let strArray = toString.split(",");
+      let timestamp = new Date(strArray[3] * 1000);
+      //console.log("timestamp: " + timestamp);
+      //console.log("strArray: " + strArray[3] * 1000);
+
+      let row = table.insertRow();
+      let cell1 = row.insertCell(0);
+      let cell2 = row.insertCell(1);
+      let cell3 = row.insertCell(2);
+      let cell4 = row.insertCell(3);
+      cell1.innerHTML = strArray[0];
+      cell2.innerHTML = strArray[1];
+      cell3.innerHTML = strArray[2];
+      cell4.style.width = "60%";
+      cell4.innerHTML = timestamp;
+    }
+
+    function getList() {
+      // Send the form data using post
+      $.get("/list", function (data) {
+        console.log('data.getLists : '+ data.getLists);
+        //let toString = data.getLists.toString();
+        //console.log('data.getLists++ : '+ toString);
+        //let jsonStr = JSON.stringify(data.getLists);
+        //console.log("jsonStr: "+  jsonStr);
+
+        // let strArray = toString.split(",");
+        // let timestamp = new Date(strArray[3] * 1000);
+        //console.log("timestamp: " + timestamp);
+        //console.log("timestamp: " + strArray[3] * 1000);
+        //console.log("strArray: " + strArray[0] + ", " + strArray[1] + ", " + strArray[2] + ", " + timestamp);
+        //getListAll()
+
+        processTable(data.getLists)
+      });  // end of get
+    }  // end of getListAll
+  </script>
+</head>
+
+<body>
+  <div class="container">
+      <div class="row">
+          <div class="col-lg-12">
+              <header class="text-center tm-site-header">
+                  <div class="tm-site-logo"></div>
+                  <h1 class="pl-4 tm-site-title">Crime Stop!</h1>
+              </header>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-lg-12">
+              <div class="tm-video-container">
+                  <video id="tm-welcome-video" class="tm-welcome-video" autoplay loop muted="">
+                      <source src="videos/video.mp4" type="video/mp4"> Your browser does not support the video tag.
+                      </video>
+                      <div id="tm-video-loader"></div>
+                      <div id="tm-video-text-overlay" class="tm-video-text-overlay d-none">
+                          <h1>
+                              <div id="rotate" class="tm-video-text">
+                                  <div>This is Crime Management System</div>
+                                  <div>We are powerful</div>
+                                  <div>Hisory is remember forever</div>
+                              </div>
+                          </h1>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="container tm-container-2">
+          <div class="row">
+              <div class="col-lg-12">
+                  <h2 class="tm-welcome-text">Welcome to our block-chain program</h2>
+              </div>
+          </div>
+          <div class="row tm-section-mb">
+              <div class="col-lg-12">
+                  <div class=" tm-timeline-item">
+                      <div class="tm-timeline-item-inner">
+                          <img src="img/img-03.jpg" alt="Image" class="rounded-circle tm-img-timeline">
+                          <div class="tm-timeline-connector">
+                              <p class="mb-0">&nbsp;</p>
+                          </div>
+                          <div class="tm-timeline-description-wrap">
+                              <div class="tm-bg-dark tm-timeline-description">
+                                  <h3 class="tm-text-green tm-font-400">We make crime history management system</h3>
+                                  <p>This system is a blockchain system that can manage and inquire crime history. <br>But Time is 부족. We will upgrade system later</p>
+                                  <p class="tm-text-green float-right mb-0">Develop from 2022.04.29</p>
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="tm-timeline-connector-vertical"></div>
+                  </div>
+              </div>
+          </div>
+          <!--  row -->
+          <hr>
+          <div class="row tm-section-mt">
+            <div class="col-lg-6 mb-5">
+              <h3 class="mb-4 tm-text-gray">Enter Criminal Information.</h3>
+              <form>
+                <label>Name:
+                  <input type="text" name="proname" placeholder="Criminal Name..">
+                </label>
+                <br>
+                <label>Age:
+                  <input type="text" name="pronumber" placeholder="Age is..">
+                </label>
+                <br>
+                <label>Types of Crime:
+                  <input type="text" name="proloc" placeholder="The types of Crime..">
+                </label>
+                <br>
+                <label>제출:
+                  <input type="submit" value="Send">
+                </label>
+              </form>
+              <div id="message"></div>
+              <table style="width:100%" id="table1"></table>
+            </div>
+          </div>
+          <hr>
+      <!-- Footer -->
+      <footer class="row mt-5 mb-5">
+          <div class="col-lg-12">
+              <p class="text-center tm-text-gray tm-copyright-text mb-0">Copyright &copy;
+                  <span class="tm-current-year">2022</span> Team Minho, Byungnam 
+                  
+                  | Design: Templatemo
+              </p>
+          </div>
+      </footer>
+  </div>
+  <!-- .container -->
+  <script src="js/jquery.min.js"></script>
+  <!-- <script src="js/jquery-3.2.1.slim.min.js"></script> -->
+  <script src="js/templatemo-script.js"></script>
+</body>
+</html>
+
+<!-- <body>
+  <div class="row">
+    <div class="col-lg-12">
+        <header class="text-center tm-site-header">
+            <div class="tm-site-logo"></div>
+            <h1 class="pl-4 tm-site-title">Crime Stop!</h1>
+        </header>
+    </div>
+  </div>
+  <div class="row">
+      <div class="col-lg-12">
+          <div class="tm-video-container">
+              <video id="tm-welcome-video" class="tm-welcome-video" autoplay loop muted="">
+                  <source src="videos/video.mp4" type="video/mp4"> Your browser does not support the video tag.
+                  </video>
+                  <div id="tm-video-loader"></div>
+                  <div id="tm-video-text-overlay" class="tm-video-text-overlay d-none">
+                      <h1>
+                          <div id="rotate" class="tm-video-text">
+                              <div>This is Crime Management System</div>
+                              <div>We are powerful</div>
+                              <div>Hisory is remember forever</div>
+                          </div>
+                      </h1>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <h1> Crime History Management System </h1>
+  <form>
+    <label>Name:
+      <input type="text" name="proname" placeholder="Criminal Name..">
+    </label>
+    <br>
+    <label>Age:
+      <input type="text" name="pronumber" placeholder="Age is..">
+    </label>
+    <br>
+    <label>Types of Crime:
+      <input type="text" name="proloc" placeholder="The types of Crime..">
+    </label>
+    <br>
+    <label>제출:
+      <input type="submit" value="Send">
+    </label>
+  </form>
+  <div id="message"></div>
+  <table style="width:100%" id="table1"></table>
+</body> -->
